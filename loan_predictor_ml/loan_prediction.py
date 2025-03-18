@@ -15,50 +15,52 @@ except FileNotFoundError as e:
     print(f"❌ Error: {e}")
     exit(1)
 
-# ==== New User Data (replace with actual input) ====
-new_data = pd.DataFrame({
-    'person_age': [35],
-    'person_gender': ['male'],
-    'person_education': ['high_school'],
-    'person_income': [50000],
-    'person_emp_exp': [5],
-    'person_home_ownership': ['rent'],
-    'loan_amnt': [10000],
-    'loan_intent': ['education'],
-    'loan_int_rate': [12.5],
-    'loan_percent_income': [0.2],
-    'cb_person_cred_hist_length': [10],
-    'credit_score': [700],
-    'previous_loan_defaults_on_file': ['no']
-})
+# ==== Prediction Function ====
+def predict_loan_status(input_data_dict):
+    """
+    Predict loan status and provide reasons for rejection using SHAP.
+    Args:
+        input_data_dict (dict): Dictionary of user inputs.
+    Returns:
+        dict: {
+            'status': 'Approved' / 'Rejected',
+            'reason': 'Eligible' / List of top rejection reasons
+        }
+    """
+    try:
+        # Convert dict to DataFrame (single-row)
+        user_df = pd.DataFrame([input_data_dict])
 
-# ==== Encode Categorical Features (Handle Unseen Labels) ====
-for col in label_encoders:
-    if col in new_data.columns:
-        le = label_encoders[col]
-        new_data[col] = new_data[col].apply(
-            lambda x: le.transform([x])[0] if x in le.classes_ else -1
-        )
-print("✅ Categorical features encoded.")
+        # Encode categorical features
+        for col in label_encoders:
+            if col in user_df.columns:
+                le = label_encoders[col]
+                user_df[col] = user_df[col].apply(
+                    lambda x: le.transform([x])[0] if x in le.classes_ else -1
+                )
 
-# ==== Predict Loan Eligibility ====
-prediction = rf_model.predict(new_data)
-print("\n🔍 Loan Prediction Result:")
-if prediction[0] == 1:
-    print("✅ Loan Approved!")
-else:
-    print("❌ Loan Rejected!")
-    # Create SHAP Explainer to Explain the Decision
-    explainer = shap.TreeExplainer(rf_model)
-    shap_values = explainer.shap_values(new_data)
-    rej={}
-    # Get SHAP values for rejected prediction correctly
-    for i in range(len(shap_values[0])):
-        if(shap_values[0][i][0]>shap_values[0][i][1]):
-          rej[new_data.columns[i]]=shap_values[0][i][0]-shap_values[0][i][1]
-    sorted_dict = dict(sorted(rej.items(), key=lambda item: item[1], reverse=True))
-    print("Reasons for Rejection:")
-    rejection=[]
-    for feature, value in list(sorted_dict.items())[:3]:
-      rejection.append(feature)
-    print(rejection)
+        # Predict
+        prediction = rf_model.predict(user_df)[0]
+
+        if prediction == 1:
+            return {'status': 'Approved', 'reason': 'Meets eligibility criteria.'}
+        else:
+            # SHAP Explanation for Rejection
+            explainer = shap.TreeExplainer(rf_model)
+            shap_values = explainer.shap_values(user_df)
+
+            # Compute SHAP contribution differences
+            rej = {}
+            for i, col in enumerate(user_df.columns):
+                shap_diff = shap_values[0][0][i] - shap_values[1][0][i]
+                if shap_diff > 0:
+                    rej[col] = shap_diff
+
+            # Sort top rejection reasons
+            sorted_rej = dict(sorted(rej.items(), key=lambda item: item[1], reverse=True))
+            top_reasons = list(sorted_rej.keys())[:3]  # Top 3 reasons
+
+            return {'status': 'Rejected', 'reason': top_reasons}
+
+    except Exception as e:
+        return {'status': 'Error', 'reason': str(e)}

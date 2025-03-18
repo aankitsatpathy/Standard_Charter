@@ -1,0 +1,82 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(to right, #e3f2fd, #ffffff);
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
+
+.landing-container {
+    max-width: 700px;
+    margin: 60px auto;
+    padding: 40px;
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+h1 {
+    color: #0d47a1;
+    margin-bottom: 10px;
+}
+
+.tagline {
+    font-size: 1.2em;
+    color: #555;
+    margin-bottom: 30px;
+}
+
+.info-section {
+    font-size: 1em;
+    color: #444;
+    margin-bottom: 30px;
+    line-height: 1.6;
+}
+
+.cta-button {
+    display: inline-block;
+    background-color: #0d47a1;
+    color: white;
+    padding: 15px 30px;
+    border-radius: 30px;
+    font-size: 1em;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+    margin-bottom: 30px;
+}
+
+.cta-button:hover {
+    background-color: #003c8f;
+}
+
+.features-highlight {
+    text-align: left;
+    margin-top: 20px;
+}
+
+.features-highlight h2 {
+    color: #0d47a1;
+    margin-bottom: 15px;
+}
+
+.features-highlight ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.features-highlight li {
+    margin-bottom: 10px;
+    font-size: 1em;
+}
+
+footer {
+    margin-top: 50px;
+    font-size: 0.9em;
+    color: #777;
+}
+
+footer a {
+    color: #0d47a1;
+    text-decoration: none;
+}
