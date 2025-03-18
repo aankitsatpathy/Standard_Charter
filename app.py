@@ -1,16 +1,20 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, request, jsonify
+from loan_predictor_ml.loan_prediction import predict_loan_status
+
+
+from flask_cors import CORS  # Enable CORS for React frontend
 
 app = Flask(__name__)
+CORS(app)  # Allow React frontend to access API
 
-# Landing page route
-@app.route('/')
-def home():
-    return render_template('index.html')
-
-# AI Manager route placeholder
-@app.route('/ai_manager')
-def ai_manager():
-    return "<h2>Video Upload and AI Manager Interface Coming Soon!</h2>"
+@app.route('/predict', methods=['POST'])
+def predict():
+    try:
+        user_input = request.json  # Receive JSON from React
+        result = predict_loan_status(user_input)
+        return jsonify(result)
+    except Exception as e:
+        return jsonify({'status': 'Error', 'reason': str(e)})
 
 if __name__ == '__main__':
     app.run(debug=True)
