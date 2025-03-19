@@ -10,11 +10,16 @@ CORS(app)  # Allow React frontend to access API
 @app.route('/predict', methods=['POST'])
 def predict():
     try:
+        
         user_input = request.json  # Receive JSON from React
         result = predict_loan_status(user_input)
-        return jsonify(result)
+        
+        # Ensure the returned result is a JSON-compatible response
+        return jsonify({"status": "Success", "prediction": result})
     except Exception as e:
         return jsonify({'status': 'Error', 'reason': str(e)})
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=3000, debug=True)  # Set port to 3000
+
+

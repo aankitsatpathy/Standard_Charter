@@ -1,0 +1,112 @@
+/* App.css */
+
+/* Set a background color or image */
+body {
+  background: linear-gradient(135deg, #6a11cb, #2575fc); /* Gradient background */
+  font-family: 'Arial', sans-serif;
+  margin: 0;
+  padding: 0;
+  color: #000; /* Default text color is now black */
+}
+
+/* Main container for the app */
+.App {
+  text-align: center;
+  max-width: 800px;
+  margin: 50px auto;
+  padding: 30px;
+  background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white background */
+  border-radius: 15px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  color: #000; /* Set text color to black */
+}
+
+/* Styling for the video container */
+.video-container {
+  width: 80%;
+  margin: 20px auto;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+video {
+  width: 100%;
+  height: auto;
+  border: none;
+  border-radius: 8px;
+}
+
+/* Button styling */
+button {
+  background-color: #2575fc;
+  color: white;
+  border: none;
+  padding: 12px 25px;
+  font-size: 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 20px;
+}
+
+button:hover {
+  background-color: #6a11cb;
+}
+
+button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+/* Styling for the results section */
+.results {
+  margin-top: 20px;
+  text-align: left;
+  max-width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.results p {
+  font-size: 18px;
+  margin: 12px 0;
+  padding: 8px;
+  background-color: rgba(255, 255, 255, 0.7);
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  color: #000; /* Ensure text inside results is black */
+}
+
+/* Heading and subheading styling */
+h1 {
+  font-size: 36px;
+  margin-bottom: 20px;
+  color: #000; /* Set heading color to black */
+}
+
+h2 {
+  font-size: 24px;
+  margin-top: 40px;
+  color: #000; /* Set subheading color to black */
+}
+
+/* Ensure mobile responsiveness */
+@media (max-width: 768px) {
+  .App {
+    padding: 15px;
+  }
+
+  .video-container {
+    width: 100%;
+  }
+
+  button {
+    padding: 10px 20px;
+    font-size: 14px;
+  }
+
+  .results p {
+    font-size: 16px;
+  }
+}

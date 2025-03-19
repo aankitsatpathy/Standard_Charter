@@ -3,8 +3,8 @@ import joblib
 import shap
 
 # Load model and encoders
-MODEL_PATH = 'best_random_forest_model.pkl'
-ENCODERS_PATH = 'label_encoders.pkl'
+MODEL_PATH = 'loan_predictor_ml/best_random_forest_model.pkl'
+ENCODERS_PATH = 'loan_predictor_ml/label_encoders.pkl'
 
 rf_model = joblib.load(MODEL_PATH)
 label_encoders = joblib.load(ENCODERS_PATH)
